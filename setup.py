@@ -47,5 +47,12 @@ setup(
     packages=find_packages(),
     include_package_data=True,
 
+    entry_points={
+        'bartender.test': [
+            't1 = bartender.test:TestApp',
+            't2 = bartender.test:TestApp',
+            ],
+        },
+
     zip_safe=False,
     )
