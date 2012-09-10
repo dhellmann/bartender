@@ -41,6 +41,7 @@ setup(
 
     provides=['bartender'],
     install_requires=['stevedore',
+                      'werkzeug',
                       ],
 
     packages=find_packages(),
