@@ -3,9 +3,13 @@
 
 import inspect
 import json
+import logging
+import os
 
 import stevedore.extension
 from werkzeug.wsgi import DispatcherMiddleware
+
+LOG = logging.getLogger(__name__)
 
 
 class PathDispatcher(DispatcherMiddleware):
@@ -21,6 +25,7 @@ class PathDispatcher(DispatcherMiddleware):
         self.root_app = root_app
 
         def gather_apps(ext):
+            LOG.info('loaded /%s', ext.name)
             self.apps['/' + ext.name] = ext.obj
 
         self.ext_mgr = stevedore.extension.ExtensionManager(
