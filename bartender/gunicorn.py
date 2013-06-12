@@ -1,4 +1,4 @@
-"""Load a PathDispatcher using settings from the environment, useful with gunicorn.
+"""Load a PathDispatcher using settings from the environment.
 
 The namespace is taken from ``BARTENDER_NAMESPACE`` with a default
 of "bartender".

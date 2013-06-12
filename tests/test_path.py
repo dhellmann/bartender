@@ -17,7 +17,7 @@ class FauxPlugin(object):
     def load(self):
         return self
 
-    def __call__(self, name):
+    def __call__(self):
         return self.app
 
     def app(self, environ, start_response):
@@ -27,7 +27,8 @@ class FauxPlugin(object):
 
 
 def test_default_root_app():
-    with mock.patch('pkg_resources.iter_entry_points', lambda x: [FauxPlugin()]):
+    with mock.patch('pkg_resources.iter_entry_points',
+                    lambda x: [FauxPlugin()]):
         d = PathDispatcher('bartender.test')
         c = Client(d, BaseResponse)
         resp = c.get('/')
@@ -42,7 +43,8 @@ def test_with_root_app():
     def my_root_app(environ, start_response):
         start_response('200 OK', [('Content-type', 'text/plain')])
         return 'hi'
-    with mock.patch('pkg_resources.iter_entry_points', lambda x: [FauxPlugin()]):
+    with mock.patch('pkg_resources.iter_entry_points',
+                    lambda x: [FauxPlugin()]):
         d = PathDispatcher('bartender.test', my_root_app)
         c = Client(d, BaseResponse)
         resp = c.get('/')
@@ -51,7 +53,8 @@ def test_with_root_app():
 
 
 def test_dispatch_to_plugin():
-    with mock.patch('pkg_resources.iter_entry_points', lambda x: [FauxPlugin()]):
+    with mock.patch('pkg_resources.iter_entry_points',
+                    lambda x: [FauxPlugin()]):
         d = PathDispatcher('bartender.test')
         c = Client(d, BaseResponse)
         resp = c.get('/myapp')
@@ -66,11 +69,14 @@ def test_namespace():
         namespaces.append(ns)
         return []
 
-    with mock.patch('pkg_resources.iter_entry_points', save):
-        try:
-            PathDispatcher('bartender.test')
-        except RuntimeError as err:
-            # save() returns an empty list, so
-            # we get an error about no extensions
-            assert 'bartender.test' in str(err)
+    # Force a reset of the cache
+    with mock.patch('stevedore.extension.ExtensionManager.ENTRY_POINT_CACHE',
+                    {}):
+        with mock.patch('pkg_resources.iter_entry_points', save):
+            try:
+                PathDispatcher('bartender.test')
+            except RuntimeError as err:
+                # save() returns an empty list, so
+                # we get an error about no extensions
+                assert 'bartender.test' in str(err)
     assert namespaces == ['bartender.test']

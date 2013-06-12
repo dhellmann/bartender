@@ -51,8 +51,8 @@ setup(
         'bartender.test': [
             't1 = bartender.test:TestApp',
             't2 = bartender.test:TestApp',
-            ],
-        },
+        ],
+    },
 
     zip_safe=False,
-    )
+)

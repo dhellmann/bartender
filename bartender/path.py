@@ -4,7 +4,6 @@
 import inspect
 import json
 import logging
-import os
 
 import stevedore.extension
 from werkzeug.wsgi import DispatcherMiddleware
