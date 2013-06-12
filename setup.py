@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 
-# Bootstrap installation of Distribute
-import distribute_setup
-distribute_setup.use_setuptools()
-
 from setuptools import setup, find_packages
 
 try:
@@ -22,7 +18,6 @@ setup(
     author_email='doug.hellmann@gmail.com',
 
     url='https://github.com/dhellmann/bartender',
-    download_url='https://github.com/dhellmann/bartender/tarball/master',
 
     classifiers=['Development Status :: 3 - Alpha',
                  'License :: OSI Approved :: Apache Software License',
